@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comp Calculator - Inputs & Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hanken Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #ffffff;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #ffffff;
+            color: #000000;
+            padding: 40px 40px 30px;
+            text-align: center;
+            border-bottom: 3px solid #000000;
+        }
+
+        .header h1 {
+            font-family: 'Hanken Grotesk', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: #000000;
+        }
+
+        .header p {
+            font-family: 'Hanken Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: #333333;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 40px;
+            background: #ffffff;
+            align-items: start;
+        }
+
+        .content > div {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .content > div > .section {
+            flex: 1;
+        }
+
+        .section {
+            background: #ffffff;
+            border: 2px solid #000000;
+            padding: 30px;
+        }
+
+        .section h2 {
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #000000;
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #000000;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            color: #000000;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .input-group .note {
+            font-size: 0.85rem;
+            color: #666666;
+            font-weight: 400;
+            font-style: normal;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #000000;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            background: #ffffff;
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #000000;
+            font-weight: 500;
+        }
+
+        .input-group input:hover {
+            background: #f9f9f9;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #FF6B35;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+        }
+
+        .output-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 18px;
+            background: #ffffff;
+            margin-bottom: 12px;
+            border: 2px solid #000000;
+            transition: all 0.2s ease;
+        }
+
+        .output-group:hover {
+            background: #fafafa;
+        }
+
+        .output-group label {
+            font-weight: 500;
+            color: #000000;
+            font-size: 0.9rem;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .output-group .value {
+            font-weight: 700;
+            color: #000000;
+            font-size: 1.1rem;
+            font-family: 'Hanken Grotesk', sans-serif;
+        }
+
+        .highlight-box {
+            background: #FF6B35;
+            color: #ffffff;
+            padding: 40px;
+            margin: 0 0 24px 0;
+            text-align: center;
+            border: 3px solid #000000;
+        }
+
+        .highlight-box .big-number {
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 20px 0;
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+        }
+
+        .highlight-box .description {
+            font-size: 1.1rem;
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #ffffff;
+            font-weight: 500;
+        }
+
+        .info-box {
+            background: #ffffff;
+            border: 2px solid #000000;
+            border-left: 4px solid #FF6B35;
+            padding: 16px;
+            margin-top: 24px;
+            font-size: 0.9rem;
+            color: #000000;
+            font-family: 'Hanken Grotesk', sans-serif;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            color: #000000;
+            font-weight: 700;
+        }
+
+        .savings-alert {
+            background: #FFF9F0;
+            border: 2px solid #FF6B35;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 0.95rem;
+            color: #000000;
+            font-weight: 500;
+            font-family: 'Hanken Grotesk', sans-serif;
+            line-height: 1.6;
+        }
+
+        .savings-alert div {
+            margin-bottom: 8px;
+        }
+
+        .savings-alert div:last-child {
+            margin-bottom: 0;
+        }
+
+        .section h3 {
+            font-family: 'Hanken Grotesk', sans-serif;
+            color: #666666;
+            font-size: 0.875rem;
+            margin: 24px 0 16px 0;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 32px 24px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .highlight-box .big-number {
+                font-size: 3rem;
+            }
+
+            .section {
+                padding: 24px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 30px 20px 24px;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .content {
+                padding: 24px 16px;
+                gap: 24px;
+            }
+
+            .section {
+                padding: 20px;
+            }
+
+            .highlight-box {
+                padding: 32px 20px;
+            }
+
+            .highlight-box .big-number {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Comp Calculator</h1>
+            <p>Calculate the true cost of restaurant comps and identify savings opportunities</p>
+        </div>
+
+        <div class="content">
+            <!-- LEFT COLUMN: INPUTS -->
+            <div>
+                <div class="section">
+                    <h2>Restaurant Inputs</h2>
+                    
+                    <div class="input-group">
+                        <label>
+                            Total Monthly Sales ($)
+                            <span class="note">Your total revenue this month</span>
+                        </label>
+                        <input type="number" id="totalSales" value="50000" step="100" min="0">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Food Cost %
+                            <span class="note">Cost of ingredients as % of sales</span>
+                        </label>
+                        <input type="number" id="foodCostPercent" value="33" step="0.1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Average Tip %
+                            <span class="note">Typical tip percentage</span>
+                        </label>
+                        <input type="number" id="tipPercent" value="14" step="0.1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            3rd-Party Delivery Fee %
+                            <span class="note">Commission on delivery orders</span>
+                        </label>
+                        <input type="number" id="deliveryFee" value="4" step="0.1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Sales Tax %
+                            <span class="note">Local sales tax rate</span>
+                        </label>
+                        <input type="number" id="salesTax" value="8.5" step="0.1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Preventable % of Comps
+                            <span class="note">Estimated avoidable comps</span>
+                        </label>
+                        <input type="number" id="preventablePercent" value="40" step="1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Save Rate % (recovery comps keep guest)
+                            <span class="note">Retention from recovery comps</span>
+                        </label>
+                        <input type="number" id="saveRate" value="70" step="1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Halo/Extra Revenue % (from loyal return)
+                            <span class="note">Future revenue from loyal return</span>
+                        </label>
+                        <input type="number" id="haloPercent" value="5" step="0.1" min="0" max="100">
+                    </div>
+
+                    <div class="input-group">
+                        <label>
+                            Total Comps This Month ($)
+                            <span class="note">Total retail value of comped items</span>
+                        </label>
+                        <input type="number" id="totalCompsInput" value="480" step="1" min="0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: OUTPUTS -->
+            <div>
+                <div class="highlight-box">
+                    <div class="description">You comped</div>
+                    <div class="big-number" id="totalCompsDisplay">$480</div>
+                    <div class="description">this month</div>
+                </div>
+
+                <div class="savings-alert" id="preventableAlert">
+                    <div id="preventableText">40.00% ($192.00) was preventable.</div>
+                    <div id="savingsText">Fixing it saves about $76.54 /month ($918.53 /year).</div>
+                </div>
+
+                <div class="section">
+                    <h2>Monthly Comp Summary</h2>
+                    <h3 style="color: #666; font-size: 1rem; margin: 15px 0 10px 0;">Calculated Outputs</h3>
+                    
+                    <div class="output-group">
+                        <label>Total Comps (Retail $)</label>
+                        <div class="value" id="totalComps">$480.00</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Prepared COGS Lost ($)</label>
+                        <div class="value" id="cogsLost">$158.40</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Tax Impact ($)</label>
+                        <div class="value" id="taxImpact">$40.80</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Tip Impact ($)</label>
+                        <div class="value" id="tipImpact">$67.20</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>3rd-Party Fee Impact ($)</label>
+                        <div class="value" id="feeImpact">$19.20</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Contribution Margin Lost ($)</label>
+                        <div class="value" id="marginLost">$194.40</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Preventable Loss ($)</label>
+                        <div class="value" id="preventableLoss">$77.76</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Necessary Loss ($)</label>
+                        <div class="value" id="necessaryLoss">$116.64</div>
+                    </div>
+
+                    <div class="output-group">
+                        <label>Halo Recovery ($)</label>
+                        <div class="value" id="haloRecovery">$4.08</div>
+                    </div>
+
+                    <div class="output-group" style="background: #FFF9F0; border: 3px solid #FF6B35;">
+                        <label style="font-weight: 700; color: #000000;">Net Impact ($)</label>
+                        <div class="value" style="color: #FF6B35; font-size: 1.3rem;" id="netImpact">$190.32</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get all input elements
+        const inputs = {
+            totalSales: document.getElementById('totalSales'),
+            foodCostPercent: document.getElementById('foodCostPercent'),
+            tipPercent: document.getElementById('tipPercent'),
+            deliveryFee: document.getElementById('deliveryFee'),
+            salesTax: document.getElementById('salesTax'),
+            preventablePercent: document.getElementById('preventablePercent'),
+            saveRate: document.getElementById('saveRate'),
+            haloPercent: document.getElementById('haloPercent'),
+            totalCompsInput: document.getElementById('totalCompsInput')
+        };
+
+        // Get all output elements
+        const outputs = {
+            totalComps: document.getElementById('totalComps'),
+            totalCompsDisplay: document.getElementById('totalCompsDisplay'),
+            cogsLost: document.getElementById('cogsLost'),
+            taxImpact: document.getElementById('taxImpact'),
+            tipImpact: document.getElementById('tipImpact'),
+            feeImpact: document.getElementById('feeImpact'),
+            marginLost: document.getElementById('marginLost'),
+            preventableLoss: document.getElementById('preventableLoss'),
+            necessaryLoss: document.getElementById('necessaryLoss'),
+            haloRecovery: document.getElementById('haloRecovery'),
+            netImpact: document.getElementById('netImpact'),
+            preventableText: document.getElementById('preventableText'),
+            savingsText: document.getElementById('savingsText')
+        };
+
+        function formatCurrency(value) {
+            return '$' + value.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function formatPercent(value) {
+            return value.toFixed(2) + '%';
+        }
+
+        function calculate() {
+            // Get input values
+            const totalSales = parseFloat(inputs.totalSales.value) || 0;
+            const foodCostPercent = parseFloat(inputs.foodCostPercent.value) || 0;
+            const tipPercent = parseFloat(inputs.tipPercent.value) || 0;
+            const deliveryFee = parseFloat(inputs.deliveryFee.value) || 0;
+            const salesTax = parseFloat(inputs.salesTax.value) || 0;
+            const preventablePercent = parseFloat(inputs.preventablePercent.value) || 0;
+            const saveRate = parseFloat(inputs.saveRate.value) || 0;
+            const haloPercent = parseFloat(inputs.haloPercent.value) || 0;
+            const totalComps = parseFloat(inputs.totalCompsInput.value) || 0;
+
+            // Basic calculations
+            const cogsLost = totalComps * (foodCostPercent / 100);
+            const taxImpact = totalComps * (salesTax / 100);
+            const tipImpact = totalComps * (tipPercent / 100);
+            const feeImpact = totalComps * (deliveryFee / 100);
+            
+            // Contribution margin = Total Comps - COGS - Tax - Tip - Fees
+            const marginLost = totalComps - cogsLost - taxImpact - tipImpact - feeImpact;
+            
+            // Preventable vs Necessary
+            const preventableLoss = marginLost * (preventablePercent / 100);
+            const necessaryLoss = marginLost - preventableLoss;
+            
+            // Halo effect (future revenue from saved customers)
+            const haloRecovery = necessaryLoss * (saveRate / 100) * (haloPercent / 100);
+            
+            // Net impact
+            const netImpact = marginLost - haloRecovery;
+
+            // Update outputs
+            outputs.totalComps.textContent = formatCurrency(totalComps);
+            outputs.totalCompsDisplay.textContent = formatCurrency(totalComps);
+            outputs.cogsLost.textContent = formatCurrency(cogsLost);
+            outputs.taxImpact.textContent = formatCurrency(taxImpact);
+            outputs.tipImpact.textContent = formatCurrency(tipImpact);
+            outputs.feeImpact.textContent = formatCurrency(feeImpact);
+            outputs.marginLost.textContent = formatCurrency(marginLost);
+            outputs.preventableLoss.textContent = formatCurrency(preventableLoss);
+            outputs.necessaryLoss.textContent = formatCurrency(necessaryLoss);
+            outputs.haloRecovery.textContent = formatCurrency(haloRecovery);
+            outputs.netImpact.textContent = formatCurrency(netImpact);
+
+            // Update alert text
+            const preventableAmount = totalComps * (preventablePercent / 100);
+            const monthlySavings = preventableLoss;
+            const yearlySavings = monthlySavings * 12;
+            
+            outputs.preventableText.textContent = 
+                `${formatPercent(preventablePercent)} (${formatCurrency(preventableAmount)}) was preventable.`;
+            outputs.savingsText.textContent = 
+                `Fixing it saves about ${formatCurrency(monthlySavings)} /month (${formatCurrency(yearlySavings)} /year).`;
+        }
+
+        // Add event listeners to all inputs
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        // Initial calculation
+        calculate();
+    </script>
+</body>
+</html>
